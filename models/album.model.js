@@ -1,25 +1,22 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
-const musicSchema = new mongoose.Schema({
+
+const albumSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true
     },
-    artist: {
+    createdBy: {
         type: String,
         required: true
     },
-    lyrics: {
-        type: String,
+    releaseDate: {
+        type: Date,
         required: false
     },
     genre: {
         type: String,
         required: false
-    },
-    fileUrl: {
-        type: String,
-        required: true
     },
     coverImageUrl: {
         type: String,
@@ -27,15 +24,19 @@ const musicSchema = new mongoose.Schema({
     },
     public_id: String,
     slug: {
-      type: String,
-      slug: 'title',
-      unique: true,
+        type: String,
+        unique: true,
     },
+    songs: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Music',
+        required: false
+    }],
 }, {
     timestamps: true,
 });
 
-musicSchema.pre('save', function (next) {
+albumSchema.pre('save', function (next) {
     let title = this.title;
     if (title && typeof title === 'string') {
         this.slug = slugify(title, {
@@ -44,7 +45,8 @@ musicSchema.pre('save', function (next) {
         next();
     }
 });
-musicSchema.pre('updateOne', function (next) {
+
+albumSchema.pre('updateOne', function (next) {
     let title = this._update.title;
     if (title && typeof title === 'string') {
         this._update.$set.slug = slugify(title, {
@@ -54,7 +56,6 @@ musicSchema.pre('updateOne', function (next) {
     }
 });
 
-// Tạo model từ schema
-const Music = mongoose.model('Music', musicSchema);
+const Album = mongoose.model('Album', albumSchema);
 
-module.exports = Music;
+module.exports = Album;

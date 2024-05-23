@@ -3,7 +3,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
-
+const CSS_URL =
+  "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
 
 require('dotenv').config();
 const passport = require("passport");
@@ -48,7 +49,7 @@ const swaggerSpec = swaggerJsDoc(swaggerJsDocOptions);
 app.use(
   "/api-docs",
   swaggerUi.serve,
-  swaggerUi.setup(swaggerSpec)
+  swaggerUi.setup(swaggerSpec, { customCssUrl: CSS_URL })
 )
 
 app.listen(port, () => {

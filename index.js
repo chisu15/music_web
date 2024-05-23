@@ -36,7 +36,8 @@ const swaggerJsDocOptions = {
     },
     servers: [
       {
-        url: "http://localhost:8080"
+        // url: "http://localhost:8080"
+        url: "https://music-web-orcin.vercel.app"
       }
     ]
   },

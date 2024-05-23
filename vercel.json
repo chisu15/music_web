@@ -7,9 +7,6 @@
       }
     ],
     "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "/"
-      }
+        { "src": "/api-docs", "dest": "/api-docs/index.html" }
     ]
 }

@@ -6,32 +6,29 @@ const albumSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    createdBy: {
-        type: String,
-        required: true
-    },
-    releaseDate: {
-        type: Date,
+    like: {
+        type: Number,
+        default: 0,
         required: false
-    },
-    genre: {
-        type: String,
-        required: false
-    },
-    coverImageUrl: {
-        type: String,
-        required: false
-    },
-    public_id: String,
-    slug: {
-        type: String,
-        unique: true,
     },
     songs: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Music',
         required: false
     }],
+    createdBy: {
+        type: String,
+        required: true
+    },
+    status: {
+        type: String,
+        default: "private",
+        required: true
+    },
+    coverImageUrl: {
+        type: String,
+        required: false
+    },
 }, {
     timestamps: true,
 });

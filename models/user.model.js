@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const slugify = require('slugify');
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -12,7 +11,15 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    favoriteAlbums: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Album'
+    }],
+    albumCreated: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Album'
+    }]
 });
 
 module.exports = mongoose.model('User', userSchema);

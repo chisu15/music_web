@@ -13,6 +13,11 @@ const musicSchema = new mongoose.Schema({
         type: String,
         required: false
     },
+    like:{
+        type: Number,
+        default: 0,
+        require: false
+    },
     genre: {
         type: String,
         required: false

@@ -117,6 +117,7 @@ module.exports.delete = async (req, res) => {
   try {
     const {id} = req.params;
     const album = await Album.findById(id);
+    console.log(album);
     if (!album) {
       return res.status(400).json({
         code: 400,
@@ -124,7 +125,14 @@ module.exports.delete = async (req, res) => {
       })
     }
     await album.deleteOne();
+    res.status(200).json({
+      code: 200,
+      message: "Delete album success!"
+    })
   } catch (error) {
-    
+    res.status(400).json({
+      code: 400,
+      message: "Delete album fail!"
+    })
   }
 }

@@ -16,8 +16,6 @@ db.connect();
 //  DEV
 app.use(cors({
   origin: ['http://localhost:3000', 'https://musicwebbyahm.vercel.app', 'https://music-web-orcin.vercel.app'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
 

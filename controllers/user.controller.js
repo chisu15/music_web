@@ -57,6 +57,7 @@ module.exports.detail = async (req, res) => {
 
 module.exports.loginGoogle = (req, res) => {
   try {
+    console.log("Client Id: ", process.env.GOOGLE_CLIENT_ID);
     const url = client.generateAuthUrl({
       access_type: 'offline',
       scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email'],

@@ -14,13 +14,13 @@ const db = require('./config/db');
 
 db.connect();
 //  DEV
-app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true
-}));
+// app.use(cors({
+//   origin: 'http://localhost:3000',
+//   credentials: true
+// }));
 // DEPLOY
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'https://music-web-orcin.vercel.app/',
   credentials: true
 }));
 app.use(cookieParser());

@@ -5,7 +5,9 @@ const streamifier = require('streamifier');
 require('dotenv').config();
 const path = require('path');
 
-const { OAuth2Client } = require('google-auth-library');
+const {
+  OAuth2Client
+} = require('google-auth-library');
 const redirectUrl = 'http://localhost:3000/profile'
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, process.env.GOOGLE_REDIRECT_URI);
@@ -29,7 +31,9 @@ module.exports.index = async (req, res) => {
 
 module.exports.detail = async (req, res) => {
   try {
-    const { id } = req.params;
+    const {
+      id
+    } = req.params;
     const user = await User.findById(id);
     if (!user) {
       return res.status(400).json({
@@ -72,8 +76,12 @@ module.exports.loginGoogle = (req, res) => {
 
 module.exports.callback = async (req, res) => {
   try {
-    const { code } = req.query;
-    const { tokens } = await client.getToken({
+    const {
+      code
+    } = req.query;
+    const {
+      tokens
+    } = await client.getToken({
       code,
       redirect_uri: process.env.GOOGLE_REDIRECT_URI
     });
@@ -86,17 +94,22 @@ module.exports.callback = async (req, res) => {
     const payload = ticket.getPayload();
 
     // Save or update user in database
-    const user = await User.findOneAndUpdate(
-      { googleId: payload.sub },
-      {
-        googleId: payload.sub,
-        email: payload.email,
-        username: payload.name,
-        picture: payload.picture,
-      },
-      { upsert: true, new: true, setDefaultsOnInsert: true }
-    );
-    res.cookie('token', tokens.id_token, { httpOnly: true, secure: false });
+    const user = await User.findOneAndUpdate({
+      googleId: payload.sub
+    }, {
+      googleId: payload.sub,
+      email: payload.email,
+      username: payload.name,
+      picture: payload.picture,
+    }, {
+      upsert: true,
+      new: true,
+      setDefaultsOnInsert: true
+    });
+    res.cookie('token', tokens.id_token, {
+      httpOnly: true,
+      secure: false
+    });
     console.log('User authenticated successfully:', user);
     res.redirect(redirectUrl);
   } catch (error) {
@@ -128,7 +141,9 @@ module.exports.profile = async (req, res) => {
     console.log('Verified Payload:', payload); // Log the payload
 
     // Fetch user from database using Google ID
-    const user = await User.findOne({ googleId: payload.sub });
+    const user = await User.findOne({
+      googleId: payload.sub
+    });
     if (!user) {
       return res.status(404).json({
         code: 404,
@@ -153,7 +168,9 @@ module.exports.profile = async (req, res) => {
 
 module.exports.update = async (req, res) => {
   try {
-    const { id } = req.params;
+    const {
+      id
+    } = req.params;
     const checkuser = await User.findById(id);
     if (!checkuser) {
       return res.status(400).json({
@@ -162,11 +179,9 @@ module.exports.update = async (req, res) => {
       });
     }
     const user = await User.findByIdAndUpdate(
-      id,
-      {
+      id, {
         ...req.body,
-      },
-      {
+      }, {
         new: true,
       }
     );
@@ -183,4 +198,3 @@ module.exports.update = async (req, res) => {
     });
   }
 };
-

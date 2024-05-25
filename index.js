@@ -18,10 +18,11 @@ db.connect();
 //   origin: 'http://localhost:3000',
 //   credentials: true
 // }));
+
 // DEPLOY
 app.use(cors({
   origin: 'https://music-web-orcin.vercel.app/',
-  credentials: true
+  credentials: true,
 }));
 app.use(cookieParser());
 app.use(bodyParser.json());

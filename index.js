@@ -13,8 +13,7 @@ const port = process.env.PORT;
 const db = require('./config/db');
 
 db.connect();
-
-// Cấu hình CORS cho phép các miền cần thiết
+//  DEV
 app.use(cors({
   origin: ['http://localhost:3000', 'https://musicwebbyahm.vercel.app', 'https://music-web-orcin.vercel.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
@@ -27,6 +26,10 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
 
 // ROUTE
 const route = require('./routes/index.route');

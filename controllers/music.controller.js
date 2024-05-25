@@ -51,12 +51,6 @@ module.exports.detail = async (req, res) => {
 // [POST] CREATE
 module.exports.create = async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({
-        code: 400,
-        message: 'Please upload a sound file',
-      });
-    }
     const musicPath = path.join('/tmp/', req.file.filename);
     // const musicPath = path.join(__dirname, "../tmp/", req.file.filename);
     const fileBuffer = fs.readFileSync(musicPath);

@@ -76,14 +76,15 @@ module.exports.loginGoogle = (req, res) => {
 
 module.exports.callback = async (req, res) => {
   try {
-    const {
-      code
-    } = req.query;
-    const {
-      tokens
-    } = await client.getToken({
+    const { code } = req.query;
+    console.log('Code:', code); // Log the code to ensure it is being received
+    if (!code) {
+      return res.status(400).json({ error: 'Code is missing from query parameters' });
+    }
+
+    const { tokens } = await client.getToken({
       code,
-      redirect_uri: process.env.GOOGLE_REDIRECT_URI
+      redirect_uri: process.env.GOOGLE_REDIRECT_URI // Ensure redirect_uri is included here
     });
     client.setCredentials(tokens);
 
@@ -93,25 +94,19 @@ module.exports.callback = async (req, res) => {
     });
     const payload = ticket.getPayload();
 
-    // Save or update user in database
-    const user = await User.findOneAndUpdate({
-      googleId: payload.sub
-    }, {
-      googleId: payload.sub,
-      email: payload.email,
-      username: payload.name,
-      picture: payload.picture,
-    }, {
-      upsert: true,
-      new: true,
-      setDefaultsOnInsert: true
-    });
-    res.cookie('token', tokens.id_token, {
-      httpOnly: true,
-      secure: false
-    });
-    console.log('User authenticated successfully:', user);
-    res.redirect(redirectUrl);
+    const user = await User.findOneAndUpdate(
+      { googleId: payload.sub },
+      {
+        googleId: payload.sub,
+        email: payload.email,
+        name: payload.name,
+        picture: payload.picture,
+      },
+      { upsert: true, new: true, setDefaultsOnInsert: true }
+    );
+
+    res.cookie('token', tokens.id_token, { httpOnly: true, secure: false });
+    res.redirect(redirectUrl); // Redirect to the profile page on your Vercel deployment
   } catch (error) {
     console.error('Error in callback:', error);
     res.status(400).json({
@@ -121,7 +116,6 @@ module.exports.callback = async (req, res) => {
     });
   }
 };
-
 
 module.exports.profile = async (req, res) => {
   console.log('Profile endpoint hit');

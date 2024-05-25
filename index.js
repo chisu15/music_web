@@ -15,7 +15,7 @@ const db = require('./config/db');
 db.connect();
 //  DEV
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://musicwebbyahm.vercel.app', 'https://music-web-orcin.vercel.app'],
+  origin: ['http://localhost:3000', 'https://musicwebbyahm.vercel.app'],
   credentials: true
 }));
 

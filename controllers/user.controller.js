@@ -100,7 +100,7 @@ module.exports.callback = async (req, res) => {
       {
         googleId: payload.sub,
         email: payload.email,
-        name: payload.name,
+        username: payload.name,
         picture: payload.picture,
       },
       { upsert: true, new: true, setDefaultsOnInsert: true }

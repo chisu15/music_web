@@ -18,6 +18,10 @@ const musicSchema = new mongoose.Schema({
         default: 0,
         require: false
     },
+    duration: {
+        type: Number,
+        required: false
+    },
     genre: {
         type: String,
         required: false

@@ -5,8 +5,8 @@ const streamifier = require('streamifier');
 require('dotenv').config();
 const path = require('path');
 
-const redirectUrl = 'http://localhost:3000/profile'
 const { OAuth2Client } = require('google-auth-library');
+const redirectUrl = 'http://localhost:3000/profile'
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, process.env.GOOGLE_REDIRECT_URI);
 
@@ -56,6 +56,7 @@ module.exports.loginGoogle = (req, res) => {
     const url = client.generateAuthUrl({
       access_type: 'offline',
       scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email'],
+      redirect_uri: process.env.GOOGLE_REDIRECT_URI
     });
     console.log('Generated Auth URL:', url);
     res.redirect(url);
@@ -182,3 +183,4 @@ module.exports.update = async (req, res) => {
     });
   }
 };
+

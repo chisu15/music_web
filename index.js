@@ -13,6 +13,12 @@ const port = process.env.PORT;
 const db = require('./config/db');
 
 db.connect();
+//  DEV
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
+// DEPLOY
 app.use(cors({
   origin: 'http://localhost:3000',
   credentials: true

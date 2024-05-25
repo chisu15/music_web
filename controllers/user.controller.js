@@ -106,7 +106,11 @@ module.exports.callback = async (req, res) => {
       { upsert: true, new: true, setDefaultsOnInsert: true }
     );
 
-    res.cookie('token', tokens.id_token, { secure: false });
+    res.cookie('token', tokens.id_token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'None' // Add this line
+    });
     console.log(tokens.id_token);
     res.redirect(redirectUrl); // Redirect to the profile page on your Vercel deployment
   } catch (error) {

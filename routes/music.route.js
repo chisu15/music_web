@@ -167,7 +167,7 @@ const upload = multer({
 });
 
 router.get('/', controller.index);
-router.get("/:id", controller.detail)
+router.get("/detail/:id", controller.detail)
 router.post('/', upload.single('fileUrl'), controller.create);
 router.patch("/:id", upload.single("fileUrl"), controller.update);
 router.delete("/:id", controller.delete);

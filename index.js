@@ -13,7 +13,8 @@ const db = require('./config/db');
 
 db.connect();
 
-// Middleware để thiết lập các tiêu đề CORS
+
+// Cấu hình CORS
 const allowedOrigins = ['http://localhost:3000', 'https://musicwebbyahm.vercel.app', 'https://music-web-orcin.vercel.app'];
 app.use(cors({
   origin: (origin, callback) => {
@@ -27,24 +28,25 @@ app.use(cors({
   credentials: true
 }));
 
-// Cookie và Body Parser
+// Middleware
 app.use(cookieParser());
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-// Middleware log request và thiết lập các tiêu đề CORS
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
   res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,PATCH,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
   next();
 });
-
 // ROUTE
 const route = require('./routes/index.route');
 route(app);

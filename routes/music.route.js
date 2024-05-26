@@ -146,8 +146,8 @@ const controller = require('../controllers/music.controller');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    // cb(null, path.join(__dirname, '../tmp/'));
-    cb(null, '/tmp/');
+    cb(null, path.join(__dirname, '../tmp/'));
+    // cb(null, '/tmp/');
   },
   filename: function (req, file, cb) {
     cb(null, `${Date.now()}${path.extname(file.originalname)}`);

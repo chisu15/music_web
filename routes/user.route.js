@@ -9,6 +9,7 @@ router.get('/', controller.index);
 router.get('/detail/:id', controller.detail);
 router.patch('/:id', controller.update);
 router.get('/profile', controller.profile);
+router.post("/logout", controller.logout);
 router.get('/auth/loginGoogle', controller.loginGoogle);
 router.get('/auth/callback', controller.callback);
 module.exports = router;

@@ -51,6 +51,12 @@ module.exports.detail = async (req, res) => {
 // [POST] CREATE
 module.exports.create = async (req, res) => {
   try {
+    if (!req.file) {
+      return res.status(400).json({
+        code: 400,
+        message: 'Please upload a sound file',
+      });
+    }
     const musicPath = path.join('/tmp/', req.file.filename);
     // const musicPath = path.join(__dirname, "../tmp/", req.file.filename);
     const fileBuffer = fs.readFileSync(musicPath);
@@ -113,11 +119,11 @@ module.exports.update = async (req, res) => {
     }
     if (req.file) {
       const musicPath = path.join('/tmp/', req.file.filename);
-      // const imagePath = path.join(__dirname, "../tmp/", req.file.filename);
+      // const musicPath = path.join(__dirname, "../tmp/", req.file.filename);
       const fileExtension = req.file.filename.split('.').pop().toLowerCase();
       console.log('File extension detected:' + fileExtension);
-      await cloudinary.v2.uploader.destroy(music.public_id);
-      const result = await cloudinary.v2.uploader.upload(musicPath, { resource_type: 'video' });
+      await cloudinary.uploader.destroy(music.public_id);
+      const result = await cloudinary.uploader.upload(musicPath, { resource_type: 'video' });
       const musicUrl = result.secure_url;
       // Cập nhật thông tin của bài hát
       const updatedMusic = await Music.findByIdAndUpdate(
@@ -158,9 +164,17 @@ module.exports.update = async (req, res) => {
 module.exports.delete = async (req, res) => {
   try {
     const { id } = req.params;
+    console.log(id);
     const music = await Music.findById(id);
-    const result = await cloudinary.v2.uploader.destroy(music.public_id);
-    await music.deleteOne();
+    console.log(music);
+    if (!music) {
+      return res.status(404).json({
+        message: `Music not found with ID: ${id}`,
+      });
+    }
+    const result = await cloudinary.uploader.destroy(music.public_id);
+    console.log(result);
+    const deletedMusic = await music.deleteOne();
     return res.status(200).json({
       code: 200,
       message: 'Delete music success',

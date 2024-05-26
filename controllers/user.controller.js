@@ -199,3 +199,28 @@ module.exports.update = async (req, res) => {
     });
   }
 };
+
+module.exports.logout = (req, res) => {
+  try {
+    // Clear the token cookie
+    res.clearCookie('token', {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'None'
+    });
+
+    // Respond with a success message
+    res.status(200).json({
+      code: 200,
+      message: "Logout success!"
+    });
+  } catch (error) {
+    console.error('Error in logout:', error);
+    res.status(400).json({
+      code: 400,
+      message: "Logout fail",
+      error: error.message,
+    });
+  }
+};
+

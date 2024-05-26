@@ -8,8 +8,8 @@ const path = require('path');
 const {
   OAuth2Client
 } = require('google-auth-library');
-const redirectUrl = 'http://localhost:3000/profile' 
-// const redirectUrl = 'https://musicwebbyahm.vercel.app/profile' 
+// const redirectUrl = 'http://localhost:3000/profile' 
+const redirectUrl = 'https://musicwebbyahm.vercel.app/profile' 
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, process.env.GOOGLE_REDIRECT_URI);
 

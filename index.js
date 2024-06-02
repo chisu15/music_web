@@ -15,7 +15,7 @@ db.connect();
 
 
 // Cấu hình CORS
-const allowedOrigins = ['http://localhost:3000', 'https://musicwebbyahm.vercel.app', 'https://music-web-orcin.vercel.app'];
+const allowedOrigins = ['http://localhost:3000', 'https://musicwebbyahm.vercel.app', 'https://music-web-orcin.vercel.app', 'https://admin-dashboard-sndprg.vercel.app'];
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) return callback(null, true);

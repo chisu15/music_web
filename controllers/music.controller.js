@@ -57,7 +57,9 @@ module.exports.create = async (req, res) => {
         message: 'Please upload a sound file',
       });
     }
+    // for deploy
     const musicPath = path.join('/tmp/', req.file.filename);
+    // for dev
     // const musicPath = path.join(__dirname, "../tmp/", req.file.filename);
     const fileBuffer = fs.readFileSync(musicPath);
 
@@ -118,7 +120,9 @@ module.exports.update = async (req, res) => {
       });
     }
     if (req.file) {
+      // for deploy
       const musicPath = path.join('/tmp/', req.file.filename);
+      // for dev
       // const musicPath = path.join(__dirname, "../tmp/", req.file.filename);
       const fileExtension = req.file.filename.split('.').pop().toLowerCase();
       console.log('File extension detected:' + fileExtension);

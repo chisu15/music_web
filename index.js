@@ -13,6 +13,9 @@ const db = require('./config/db');
 
 db.connect();
 
+helmet({
+  crossOriginResourcePolicy: false,
+})
 
 // Cấu hình CORS
 const allowedOrigins = ['http://localhost:3000', 'https://musicwebbyahm.vercel.app', 'https://music-web-orcin.vercel.app', 'https://admin-dashboard-sndprg.vercel.app'];

@@ -164,5 +164,8 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "helmet": "^7.1.0"
+  }
 }
